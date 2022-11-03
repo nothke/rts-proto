@@ -15,7 +15,10 @@ public class BuildingsGUI : WindowGUI
     {
         foreach (var building in input.unitsDatabase.buildings)
         {
-            Button(building.name);
+            if (Button(building.name))
+            {
+                input.SetBuildingForPlacing(building);
+            }
         }
     }
 }

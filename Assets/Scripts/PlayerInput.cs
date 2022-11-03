@@ -10,16 +10,17 @@ public class PlayerInput : MonoBehaviour
 
     public Transform testT;
 
-    public Building buildingPrefabBeingPlaced;
 
     public Material previewGreenMat;
     public Material previewRedMat;
 
     public UnitsDatabase unitsDatabase;
+    public Building buildingPrefabBeingPlaced;
+    public float buildingProgress;
 
     private void Start()
     {
-        ObjectPreviewer.SetObject(buildingPrefabBeingPlaced.gameObject);
+        SetBuildingForPlacing(buildingPrefabBeingPlaced);
     }
 
     void Update()
@@ -60,7 +61,7 @@ public class PlayerInput : MonoBehaviour
         testT.position = new Vector3(coord.x + 0.5f, 0, coord.y + 0.5f);
 
         bool mouseOverUI = Nothke.ProtoGUI.GameWindow.IsMouseOverUI();
-        bool LMBDown = mouseOverUI && Input.GetMouseButtonDown(0);
+        bool LMBDown = !mouseOverUI && Input.GetMouseButtonDown(0);
 
         if (buildingPrefabBeingPlaced && !mouseOverUI)
         {
@@ -88,5 +89,11 @@ public class PlayerInput : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void SetBuildingForPlacing(Building building)
+    {
+        buildingPrefabBeingPlaced = building;
+        ObjectPreviewer.SetObject(buildingPrefabBeingPlaced.gameObject);
     }
 }

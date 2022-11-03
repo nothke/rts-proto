@@ -16,11 +16,12 @@ public class PlayerInput : MonoBehaviour
 
     public UnitsDatabase unitsDatabase;
     public Building buildingPrefabBeingPlaced;
+    public Building buildingBeingConstructed;
     public float buildingProgress;
 
     private void Start()
     {
-        SetBuildingForPlacing(buildingPrefabBeingPlaced);
+        //StartConstructingBuilding(buildingPrefabBeingPlaced);
     }
 
     void Update()
@@ -85,15 +86,32 @@ public class PlayerInput : MonoBehaviour
                     building.transform.position = buildingPosition;
 
                     tile.building = building;
+
+                    buildingPrefabBeingPlaced = null;
                     //World.instance.PlaceBuilding(building, tile.coord);
                 }
             }
         }
+
+        // Construction progress
+        if (buildingBeingConstructed)
+        {
+            buildingProgress += dt;
+
+            if (buildingProgress > buildingBeingConstructed.timeToBuild)
+            {
+                buildingPrefabBeingPlaced = buildingBeingConstructed;
+                buildingBeingConstructed = null;
+                buildingProgress = 0;
+
+                ObjectPreviewer.SetObject(buildingPrefabBeingPlaced.gameObject);
+            }
+        }
     }
 
-    public void SetBuildingForPlacing(Building building)
+    public void StartConstructingBuilding(Building building)
     {
-        buildingPrefabBeingPlaced = building;
-        ObjectPreviewer.SetObject(buildingPrefabBeingPlaced.gameObject);
+        buildingBeingConstructed = building;
+
     }
 }

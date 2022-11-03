@@ -91,6 +91,13 @@
         "com.unity.modules.imgui": "1.0.0"
       }
     },
+    "nothke.protogui": {
+      "version": "https://github.com/nothke/ProtoGUI.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "a2d0b65bc275e845b8b6b85a53549aecb5ad59c0"
+    },
     "com.unity.modules.ai": {
       "version": "1.0.0",
       "depth": 0,

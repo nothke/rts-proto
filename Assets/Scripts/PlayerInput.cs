@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using Nothke.Utils;
+
 public class PlayerInput : MonoBehaviour
 {
     new public Camera camera;
@@ -10,7 +12,15 @@ public class PlayerInput : MonoBehaviour
 
     public Building buildingPrefabBeingPlaced;
 
-    public Transform cantPlaceCube;
+    public Material previewGreenMat;
+    public Material previewRedMat;
+
+    public UnitsDatabase unitsDatabase;
+
+    private void Start()
+    {
+        ObjectPreviewer.SetObject(buildingPrefabBeingPlaced.gameObject);
+    }
 
     void Update()
     {
@@ -49,9 +59,12 @@ public class PlayerInput : MonoBehaviour
 
         testT.position = new Vector3(coord.x + 0.5f, 0, coord.y + 0.5f);
 
-        if (buildingPrefabBeingPlaced)
+        bool mouseOverUI = Nothke.ProtoGUI.GameWindow.IsMouseOverUI();
+        bool LMBDown = mouseOverUI && Input.GetMouseButtonDown(0);
+
+        if (buildingPrefabBeingPlaced && !mouseOverUI)
         {
-            var tile = World.instance.GetTile(coord.x, coord.y);
+            ref var tile = ref World.instance.GetTile(coord.x, coord.y);
             Debug.Log(tile.coord);
 
             Vector3 buildingPosition =
@@ -59,27 +72,20 @@ public class PlayerInput : MonoBehaviour
 
             //buildingPrefabBeingPlaced.transform.position = buildingPosition;
 
-            Nothke.Utils.ObjectPreviewer.SetObject(buildingPrefabBeingPlaced.gameObject);
-            Nothke.Utils.ObjectPreviewer.Render(buildingPosition, Quaternion.identity, Vector3.one);
+            Material previewMat = tile.IsOcupied() ? previewRedMat : previewGreenMat;
 
+            ObjectPreviewer.Render(buildingPosition, Quaternion.identity, Vector3.one * 1.02f, previewMat);
 
-            if (tile.IsOcupied())
-                cantPlaceCube.transform.position = buildingPosition;
-            else
-                cantPlaceCube.transform.position = Vector3.one * 1000;
-
-
-            if (Input.GetMouseButtonDown(0))
+            if (LMBDown)
             {
                 if (!tile.IsOcupied())
                 {
                     var building = Instantiate(buildingPrefabBeingPlaced);
                     building.transform.position = buildingPosition;
 
-                    World.instance.PlaceBuilding(building, tile.coord);
+                    tile.building = building;
+                    //World.instance.PlaceBuilding(building, tile.coord);
                 }
-
-
             }
         }
     }

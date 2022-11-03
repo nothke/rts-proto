@@ -30,12 +30,12 @@ public class World : MonoBehaviour
         }
     }
 
-    public Tile GetTile(int x, int y)
+    public ref Tile GetTile(int x, int y)
     {
         x = Mathf.Clamp(x, 0, size - 1);
         y = Mathf.Clamp(y, 0, size - 1);
 
-        return tiles[y * size + x];
+        return ref tiles[y * size + x];
     }
 
     int ToTile(Vector2Int coord)

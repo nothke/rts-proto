@@ -23,10 +23,6 @@ public class Turret : MonoBehaviour
 
     private void Update()
     {
-        bool firing = false;
-
-
-
         if (target)
         {
             Vector3 targetPos = target.position;
@@ -37,24 +33,19 @@ public class Turret : MonoBehaviour
 
             rotationPivot.rotation = Quaternion.LookRotation(targetPos - pos, Vector3.up);
 
-            firing = true;
+            float time = Time.time;
 
-            if (firing)
+            if (time - timeOfLastFire > rateOfFire)
             {
-                float time = Time.time;
+                //Debug.DrawLine(transform.position, target.position, Color.red, 0.2f);
+                timeOfLastFire = time;
 
-                if (time - timeOfLastFire > rateOfFire)
-                {
-                    //Debug.DrawLine(transform.position, target.position, Color.red, 0.2f);
-                    timeOfLastFire = time;
+                StartCoroutine(FireCo());
 
-                    StartCoroutine(FireCo());
+                var health = target.GetComponentInParent<Health>();
 
-                    var health = target.GetComponentInParent<Health>();
-
-                    if (health)
-                        health.Damage(damage);
-                }
+                if (health)
+                    health.Damage(damage);
             }
         }
         else
@@ -66,7 +57,7 @@ public class Turret : MonoBehaviour
             foreach (var health in Health.all)
             {
                 float d = Vector3.Distance(health.transform.position, transform.position);
-                if (d < closest && health != ownHealth)
+                if (d < closest && health != ownHealth && d < range)
                 {
                     closest = d;
                     closestHealth = health;

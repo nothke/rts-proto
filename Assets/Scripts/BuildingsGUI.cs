@@ -49,12 +49,12 @@ public class BuildingsGUI : WindowGUI
 
         Label("Units:");
 
-        if (input.activeBarracks)
+        if (input.constructableUnits.Count > 0)
         {
             if (unitsProduced)
                 GUI.enabled = false;
 
-            foreach (var unit in input.unitsDatabase.units)
+            foreach (var unit in input.constructableUnits)
             {
                 if (Button(unit.name))
                 {

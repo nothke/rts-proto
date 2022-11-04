@@ -27,13 +27,12 @@ public class PlayerInput : MonoBehaviour
 
     public List<Unit> selectedUnits = new List<Unit>();
 
-    public UnitProducer activeBarracks;
-
     bool rectSelecting;
     Vector2 rectSelectStart;
 
     public List<Building> constructedBuildings = new List<Building>();
     public List<Unit> constructableUnits = new List<Unit>();
+    public Dictionary<Unit, Building> unitProducedInBuildingMap = new Dictionary<Unit, Building>();
 
     private void Start()
     {
@@ -131,11 +130,7 @@ public class PlayerInput : MonoBehaviour
 
             if (unitProgress > unitBeingProduced.constructable.timeToBuild)
             {
-                var unitGO = Instantiate(unitBeingProduced);
-                unitGO.transform.position = activeBarracks.transform.position + Vector3.forward;
-
-                unitBeingProduced = null;
-                unitProgress = 0;
+                CreateUnit(unitBeingProduced);
             }
         }
 
@@ -202,8 +197,28 @@ public class PlayerInput : MonoBehaviour
         constructedBuildings.Add(building);
 
         var producer = building.GetComponent<UnitProducer>();
-        if (producer && !activeBarracks)
-            activeBarracks = producer;
+
+        if (producer)
+        {
+            foreach (var unit in producer.canProduce)
+            {
+                if (!constructableUnits.Contains(unit))
+                {
+                    constructableUnits.Add(unit);
+                    unitProducedInBuildingMap.Add(unit, building);
+                }
+            }
+        }
+    }
+
+    void CreateUnit(Unit unit)
+    {
+        var building = unitProducedInBuildingMap[unit];
+
+        Instantiate(unitBeingProduced, building.transform.position + Vector3.forward, Quaternion.identity);
+
+        unitBeingProduced = null;
+        unitProgress = 0;
     }
 
     internal void ProduceUnit(Unit unit)

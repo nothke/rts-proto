@@ -13,4 +13,14 @@ public class Building : MonoBehaviour
     {
         PlayerInput.instance.BuildingGotDestroyed(this);
     }
+
+    private void OnDrawGizmos()
+    {
+        var matrix = Gizmos.matrix;
+        Gizmos.color = Color.red;
+        Gizmos.matrix = transform.localToWorldMatrix;
+        Gizmos.DrawWireCube(Vector3.zero, new Vector3(size.x, 0, size.y));
+
+        Gizmos.matrix = matrix;
+    }
 }

@@ -8,4 +8,9 @@ public class Building : MonoBehaviour
 
     Constructable _constructable;
     public Constructable constructable { get { if (!_constructable) _constructable = GetComponent<Constructable>(); return _constructable; } }
+
+    private void OnDestroy()
+    {
+        PlayerInput.instance.BuildingGotDestroyed(this);
+    }
 }

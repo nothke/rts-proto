@@ -7,6 +7,9 @@ using System;
 
 public class PlayerInput : MonoBehaviour
 {
+    public static PlayerInput instance;
+    void Awake() { instance = this; }
+
     new public Camera camera;
 
     public Transform testT;
@@ -33,11 +36,6 @@ public class PlayerInput : MonoBehaviour
     public List<Building> constructedBuildings = new List<Building>();
     public List<Unit> constructableUnits = new List<Unit>();
     public Dictionary<Unit, Building> unitProducedInBuildingMap = new Dictionary<Unit, Building>();
-
-    private void Start()
-    {
-
-    }
 
     void Update()
     {
@@ -89,7 +87,7 @@ public class PlayerInput : MonoBehaviour
         if (buildingPrefabBeingPlaced && !mouseOverUI)
         {
             ref var tile = ref World.instance.GetTile(coord.x, coord.y);
-            Debug.Log(tile.coord);
+            //Debug.Log(tile.coord);
 
             Vector3 buildingPosition =
                 new Vector3(tile.coord.x + 0.5f, 0, tile.coord.y + 0.5f);
@@ -246,5 +244,53 @@ public class PlayerInput : MonoBehaviour
             money -= building.constructable.cost;
             buildingBeingConstructed = building;
         }
+    }
+
+    public void BuildingGotDestroyed(Building building)
+    {
+        constructedBuildings.Remove(building);
+
+        if (building.GetComponent<UnitProducer>())
+            UpdateProducers();
+    }
+
+    void UpdateProducers()
+    {
+        constructableUnits.Clear();
+        unitProducedInBuildingMap.Clear();
+
+        foreach (var building in constructedBuildings)
+        {
+            if (building.TryGetComponent<UnitProducer>(out var producer))
+            {
+                foreach (var unit in producer.canProduce)
+                {
+                    if (!constructableUnits.Contains(unit))
+                    {
+                        constructableUnits.Add(unit);
+                        unitProducedInBuildingMap.Add(unit, building);
+                    }
+                }
+            }
+        }
+
+        // Cancel production if building that produces the unit no longer exists
+        if (unitBeingProduced)
+        {
+            foreach (var unit in constructableUnits)
+            {
+                if (unit == unitBeingProduced)
+                    return;
+            }
+
+            Debug.Log("Building destroyed, production cancelled");
+            CancelConstructingUnit();
+        }
+    }
+
+    void CancelConstructingUnit()
+    {
+        unitBeingProduced = null;
+        unitProgress = 0;
     }
 }

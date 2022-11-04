@@ -21,9 +21,12 @@ Stream #2:
 - // unit rect selection
 
 Stream #3:
-- Refactor production into a separate class
-- Refactor guns so that units can shoot just like turrets
+- // Created a public repo
+- // Refactor production into a separate class
+- // Refactor guns so that units can shoot just like turrets
+- // Add different sized buldings
+- // Make tanks
+- Unit queues
 - Factions
 - Nicer selection graphics
 - Formation movement
-- Unit queues

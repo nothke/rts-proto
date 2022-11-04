@@ -86,23 +86,36 @@ public class PlayerInput : MonoBehaviour
 
         if (buildingPrefabBeingPlaced && !mouseOverUI)
         {
-            ref var tile = ref World.instance.GetTile(coord.x, coord.y);
+            var size = buildingPrefabBeingPlaced.size;
+
+            Vector3 extents = new Vector3(
+                size.x, 0,
+                size.y) * 0.5f;
+
+            Vector3 buildingCornerPoint = raycastPoint - extents;
+
+            Vector2Int cornerCoord = new Vector2Int(
+                Mathf.FloorToInt(buildingCornerPoint.x + 0.5f),
+                Mathf.FloorToInt(buildingCornerPoint.z + 0.5f)
+            );
+
+            //ref var tile = ref World.instance.GetTile(coord.x, coord.y);
             //Debug.Log(tile.coord);
 
+            bool occupied = !World.instance.CanPlace(cornerCoord, size);
+
             Vector3 buildingPosition =
-                new Vector3(tile.coord.x + 0.5f, 0, tile.coord.y + 0.5f);
+                new Vector3(cornerCoord.x, 0, cornerCoord.y) + extents;
 
-            //buildingPrefabBeingPlaced.transform.position = buildingPosition;
-
-            Material previewMat = tile.IsOcupied() ? previewRedMat : previewGreenMat;
+            Material previewMat = occupied ? previewRedMat : previewGreenMat;
 
             ObjectPreviewer.Render(buildingPosition, Quaternion.identity, Vector3.one * 1.02f, previewMat);
 
             if (LMBDown)
             {
-                if (!tile.IsOcupied())
+                if (!occupied)
                 {
-                    PlaceBuilding(buildingPrefabBeingPlaced, buildingPosition, ref tile);
+                    PlaceBuilding(buildingPrefabBeingPlaced, buildingPosition, cornerCoord);
                 }
             }
         }
@@ -182,17 +195,19 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
-    void PlaceBuilding(Building prefab, Vector3 buildingPosition, ref Tile tile)
+    void PlaceBuilding(Building prefab, Vector3 buildingPosition, Vector2Int coord)
     {
         var building = Instantiate(prefab);
         building.transform.position = buildingPosition;
 
-        tile.building = building;
+        //tile.building = building;
+        World.instance.PlaceBuilding(building, coord);
 
         buildingPrefabBeingPlaced = null;
-        //World.instance.PlaceBuilding(building, tile.coord);
 
         constructedBuildings.Add(building);
+
+        // Update producers:
 
         var producer = building.GetComponent<UnitProducer>();
 

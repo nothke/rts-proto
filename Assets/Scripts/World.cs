@@ -43,9 +43,43 @@ public class World : MonoBehaviour
         return coord.y * size + coord.x;
     }
 
-    public void PlaceBuilding(Building building, Vector2Int coord)
+    Vector3 ToWorld(Vector2Int coord)
     {
-        ref Tile tile = ref tiles[ToTile(coord)];
-        tile.building = building;
+        return new Vector3(coord.x + 0.5f, 0, coord.y + 0.5f);
+    }
+
+    public bool CanPlace(Vector2Int from, Vector2Int size)
+    {
+
+        for (int y = from.y; y < from.y + size.y; y++)
+        {
+            for (int x = from.x; x < from.x + size.x; x++)
+            {
+                ref var tile = ref GetTile(x, y);
+
+                if (tile.IsOcupied())
+                {
+                    Debug.Log(from + " " + tile.coord);
+                    Debug.DrawRay(ToWorld(tile.coord), Vector3.up * 10, Color.blue);
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    public void PlaceBuilding(Building building, Vector2Int from)
+    {
+        Vector2Int size = building.size;
+
+        for (int y = from.y; y < from.y + size.y; y++)
+        {
+            for (int x = from.x; x < from.x + size.x; x++)
+            {
+                ref Tile tile = ref GetTile(x, y);
+                tile.building = building;
+            }
+        }
     }
 }

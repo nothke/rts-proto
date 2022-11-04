@@ -6,4 +6,5 @@ using UnityEngine;
 public class UnitsDatabase : ScriptableObject
 {
     public Building[] buildings;
+    public Unit[] units;
 }

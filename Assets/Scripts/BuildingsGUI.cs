@@ -13,6 +13,10 @@ public class BuildingsGUI : WindowGUI
 
     protected override void Window()
     {
+        Label("Money: " + input.money);
+
+        Label("Buildings:");
+
         bool guiDisabled = input.buildingBeingConstructed || input.buildingPrefabBeingPlaced;
 
         if (guiDisabled)
@@ -37,5 +41,29 @@ public class BuildingsGUI : WindowGUI
 
         if (guiDisabled)
             GUI.enabled = true;
+
+
+        // Units
+
+        bool unitsProduced = input.unitBeingProduced;
+
+        Label("Units:");
+
+        if (input.activeBarracks)
+        {
+            if (unitsProduced)
+                GUI.enabled = false;
+
+            foreach (var unit in input.unitsDatabase.units)
+            {
+                if (Button(unit.name))
+                {
+                    input.ProduceUnit(unit);
+                }
+            }
+
+            if (unitsProduced)
+                GUI.enabled = true;
+        }
     }
 }

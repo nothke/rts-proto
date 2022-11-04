@@ -15,3 +15,5 @@ MonoBehaviour:
   buildings:
   - {fileID: 3944843329017436967, guid: 8c77ea8d309d9d846a82353eb58d8a95, type: 3}
   - {fileID: 3840697452150824966, guid: 840f10660b386c64fb5a26da8f541d64, type: 3}
+  units:
+  - {fileID: 851496389, guid: d4f53362acca631418597f774524f08e, type: 3}

@@ -15,6 +15,8 @@ Stream #2:
 - // make preview green/red
 - // pick a building for placement, basic UI
 - // construction progress
-- mobile units
-- add obstacles ??
-- resources ??
+- // money
+- // mobile units
+- // giving move orders to units
+- // unit rect selection
+

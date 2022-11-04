@@ -32,6 +32,9 @@ public class PlayerInput : MonoBehaviour
     bool rectSelecting;
     Vector2 rectSelectStart;
 
+    public List<Building> constructedBuildings = new List<Building>();
+    public List<Unit> constructableUnits = new List<Unit>();
+
     private void Start()
     {
 
@@ -102,18 +105,7 @@ public class PlayerInput : MonoBehaviour
             {
                 if (!tile.IsOcupied())
                 {
-                    var building = Instantiate(buildingPrefabBeingPlaced);
-                    building.transform.position = buildingPosition;
-
-                    tile.building = building;
-
-                    buildingPrefabBeingPlaced = null;
-                    //World.instance.PlaceBuilding(building, tile.coord);
-
-                    var producer = building.GetComponent<UnitProducer>();
-                    if (producer && !activeBarracks)
-                        activeBarracks = producer;
-
+                    PlaceBuilding(buildingPrefabBeingPlaced, buildingPosition, ref tile);
                 }
             }
         }
@@ -195,6 +187,23 @@ public class PlayerInput : MonoBehaviour
                 }
             }
         }
+    }
+
+    void PlaceBuilding(Building prefab, Vector3 buildingPosition, ref Tile tile)
+    {
+        var building = Instantiate(prefab);
+        building.transform.position = buildingPosition;
+
+        tile.building = building;
+
+        buildingPrefabBeingPlaced = null;
+        //World.instance.PlaceBuilding(building, tile.coord);
+
+        constructedBuildings.Add(building);
+
+        var producer = building.GetComponent<UnitProducer>();
+        if (producer && !activeBarracks)
+            activeBarracks = producer;
     }
 
     internal void ProduceUnit(Unit unit)

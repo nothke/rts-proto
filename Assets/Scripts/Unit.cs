@@ -10,7 +10,8 @@ public class Unit : MonoBehaviour
     NavMeshAgent _agent;
     public NavMeshAgent agent { get { if (!_agent) _agent = GetComponent<NavMeshAgent>(); return _agent; } }
 
-    public float timeToBuild = 1.0f;
+    Constructable _constructable;
+    public Constructable constructable { get { if (!_constructable) _constructable = GetComponent<Constructable>(); return _constructable; } }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     static void Reload()

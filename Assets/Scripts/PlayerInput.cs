@@ -123,7 +123,7 @@ public class PlayerInput : MonoBehaviour
         {
             buildingProgress += dt;
 
-            if (buildingProgress > buildingBeingConstructed.timeToBuild)
+            if (buildingProgress > buildingBeingConstructed.constructable.timeToBuild)
             {
                 buildingPrefabBeingPlaced = buildingBeingConstructed;
                 buildingBeingConstructed = null;
@@ -137,7 +137,7 @@ public class PlayerInput : MonoBehaviour
         {
             unitProgress += dt;
 
-            if (unitProgress > unitBeingProduced.timeToBuild)
+            if (unitProgress > unitBeingProduced.constructable.timeToBuild)
             {
                 var unitGO = Instantiate(unitBeingProduced);
                 unitGO.transform.position = activeBarracks.transform.position + Vector3.forward;
@@ -180,17 +180,19 @@ public class PlayerInput : MonoBehaviour
 
             selectedUnits.Clear();
 
-            foreach (var unit in Unit.all)
+            if (Unit.all != null)
             {
-                Vector3 ssPos = camera.WorldToScreenPoint(unit.transform.position);
-
-                Rect rect = new Rect(rectSelectStart, (Vector2)Input.mousePosition - rectSelectStart);
-
-                if (rect.Contains(ssPos, true))
+                foreach (var unit in Unit.all)
                 {
-                    selectedUnits.Add(unit);
-                }
+                    Vector3 ssPos = camera.WorldToScreenPoint(unit.transform.position);
 
+                    Rect rect = new Rect(rectSelectStart, (Vector2)Input.mousePosition - rectSelectStart);
+
+                    if (rect.Contains(ssPos, true))
+                    {
+                        selectedUnits.Add(unit);
+                    }
+                }
             }
         }
     }
@@ -215,9 +217,9 @@ public class PlayerInput : MonoBehaviour
 
     public void StartConstructingBuilding(Building building)
     {
-        if (money >= building.cost)
+        if (money >= building.constructable.cost)
         {
-            money -= building.cost;
+            money -= building.constructable.cost;
             buildingBeingConstructed = building;
         }
     }

@@ -4,4 +4,5 @@ using UnityEngine;
 
 public class UnitProducer : MonoBehaviour
 {
+    public Unit[] canProduce;
 }

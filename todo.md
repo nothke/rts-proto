@@ -1,5 +1,5 @@
 
-RTS Proto TODO!
+RTS Proto
 
 Stream #1:
 - Set up grid
@@ -20,3 +20,10 @@ Stream #2:
 - // giving move orders to units
 - // unit rect selection
 
+Stream #3:
+- Refactor production into a separate class
+- Refactor guns so that units can shoot just like turrets
+- Factions
+- Nicer selection graphics
+- Formation movement
+- Unit queues

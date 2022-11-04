@@ -199,9 +199,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9128951164293715915}
+  - component: {fileID: 2174591859414856720}
   - component: {fileID: 3944843329017436967}
   - component: {fileID: 4866719955028967533}
   - component: {fileID: -8833445884678539913}
+  - component: {fileID: 1481304465650387381}
   m_Layer: 0
   m_Name: barracks
   m_TagString: Untagged
@@ -228,6 +230,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2174591859414856720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2165084898109899799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c81639149143614b86813ab476118ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeToBuild: 1
+  cost: 100
 --- !u!114 &3944843329017436967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,8 +257,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: {x: 1, y: 1}
-  timeToBuild: 1
-  cost: 100
 --- !u!114 &4866719955028967533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,6 +282,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abf28240376d3c843823e29791dfee6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canProduce:
+  - {fileID: 851496389, guid: d4f53362acca631418597f774524f08e, type: 3}
+--- !u!208 &1481304465650387381
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2165084898109899799}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 1.435, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.86, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &4880237298020060305
 GameObject:
   m_ObjectHideFlags: 0

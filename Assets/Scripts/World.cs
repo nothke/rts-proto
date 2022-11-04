@@ -50,7 +50,6 @@ public class World : MonoBehaviour
 
     public bool CanPlace(Vector2Int from, Vector2Int size)
     {
-
         for (int y = from.y; y < from.y + size.y; y++)
         {
             for (int x = from.x; x < from.x + size.x; x++)

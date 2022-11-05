@@ -26,7 +26,15 @@ Stream #3:
 - // Refactor guns so that units can shoot just like turrets
 - // Add different sized buldings
 - // Make tanks
-- Unit queues
-- Factions
+- // Unit queues
+- // Cookie clicker resource gathering
+
+Stream #4:
+- Cancel troops in queue when all buildings are destroyed
+- Right click unit build cancelling
 - Nicer selection graphics
+- Better bullets
 - Formation movement
+- Queue cancelling
+- Factions
+- Per-faction closest finding

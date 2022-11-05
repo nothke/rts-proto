@@ -13,7 +13,12 @@ public class BuildingsGUI : WindowGUI
 
     protected override void Window()
     {
+        //windowRect.height = 10;
+
         Label("Money: " + input.money);
+
+        if (Button("MOAR MONEY!"))
+            input.money += 12;
 
         Label("Buildings:");
 
@@ -51,19 +56,53 @@ public class BuildingsGUI : WindowGUI
 
         if (input.constructableUnits.Count > 0)
         {
-            if (unitsProduced)
-                GUI.enabled = false;
+            //if (unitsProduced)
+            //    GUI.enabled = false;
+
+
+
+
 
             foreach (var unit in input.constructableUnits)
             {
-                if (Button(unit.name))
+                string unitStr = unit.name;
+
+                int counter = 0;
+                foreach (var unitInQueue in input.unitBuildQueue)
                 {
-                    input.ProduceUnit(unit);
+                    if (unitInQueue == unit)
+                        counter++;
+                }
+
+                string percentStr = "";
+                if (input.unitBeingProduced == unit)
+                {
+                    counter++;
+                    int percent = Mathf.FloorToInt(input.unitProgress / unit.constructable.timeToBuild * 100.0f);
+                    percentStr = " " + percent + "%";
+                }
+
+                if (counter > 0)
+                {
+                    unitStr += ", producing: " + counter + percentStr;
+                }
+
+                if (Button(unitStr))
+                {
+                    input.EnqueueUnit(unit);
                 }
             }
 
-            if (unitsProduced)
-                GUI.enabled = true;
+            //if (unitsProduced)
+            //    GUI.enabled = true;
         }
+
+        Label("Unit Queue:");
+
+        foreach (var unit in input.unitBuildQueue)
+        {
+            Label(unit.name);
+        }
+
     }
 }

@@ -37,6 +37,8 @@ public class PlayerInput : MonoBehaviour
     public List<Unit> constructableUnits = new List<Unit>();
     public Dictionary<Unit, Building> unitProducedInBuildingMap = new Dictionary<Unit, Building>();
 
+    public Queue<Unit> unitBuildQueue = new Queue<Unit>();
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
@@ -135,13 +137,19 @@ public class PlayerInput : MonoBehaviour
             }
         }
 
+        if (unitBuildQueue.Count > 0 && !unitBeingProduced &&
+            money >= unitBuildQueue.Peek().constructable.cost)
+        {
+            unitBeingProduced = unitBuildQueue.Dequeue();
+        }
+
         if (unitBeingProduced)
         {
             unitProgress += dt;
 
             if (unitProgress > unitBeingProduced.constructable.timeToBuild)
             {
-                CreateUnit(unitBeingProduced);
+                SpawnUnit(unitBeingProduced);
             }
         }
 
@@ -193,6 +201,7 @@ public class PlayerInput : MonoBehaviour
                 }
             }
         }
+
     }
 
     void PlaceBuilding(Building prefab, Vector3 buildingPosition, Vector2Int coord)
@@ -224,7 +233,7 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
-    void CreateUnit(Unit unit)
+    void SpawnUnit(Unit unit)
     {
         var building = unitProducedInBuildingMap[unit];
 
@@ -232,11 +241,13 @@ public class PlayerInput : MonoBehaviour
 
         unitBeingProduced = null;
         unitProgress = 0;
+
+        money -= unit.constructable.cost;
     }
 
-    internal void ProduceUnit(Unit unit)
+    internal void EnqueueUnit(Unit unit)
     {
-        unitBeingProduced = unit;
+        unitBuildQueue.Enqueue(unit);
     }
 
     private void OnGUI()

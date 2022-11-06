@@ -30,11 +30,19 @@ Stream #3:
 - // Cookie clicker resource gathering
 
 Stream #4:
-- Cancel troops in queue when all buildings are destroyed
-- Right click unit build cancelling
-- Nicer selection graphics
-- Better bullets
-- Formation movement
-- Queue cancelling
+- Move camera by the edges of the screen
+- Add NDraw to project for drawing lines
+- Nicer selection graphics (with NDraw)
+- Force destroy on delete
+- Selecting buildings
+- Fix bug: Cancel troops in queue when all buildings that can produce it are destroyed
+- Cancel unit build on right click in UI
+- Better bullets graphics
+- Turrets should stop firing when out of range
 - Factions
 - Per-faction closest finding
+
+- Formation movement
+- Unit info UI
+- Health graphics
+- Building rally points

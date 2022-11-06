@@ -194,6 +194,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 1
+  targetOffset: 0.57
 --- !u!114 &-468562349002895674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,6 +213,8 @@ MonoBehaviour:
   rotationPivot: {fileID: 6581377580603008139}
   rateOfFire: 1
   barrelPoint: {fileID: 6581377579714338628}
+  isLaser: 0
+  bulletPrefab: {fileID: 0}
 --- !u!120 &-6255239882816267862
 LineRenderer:
   m_ObjectHideFlags: 0

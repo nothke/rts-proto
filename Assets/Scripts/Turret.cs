@@ -21,6 +21,10 @@ public class Turret : MonoBehaviour
 
     public Transform barrelPoint;
 
+    public bool isLaser;
+
+    public GameObject bulletPrefab;
+
     private void Update()
     {
         if (target)
@@ -31,6 +35,12 @@ public class Turret : MonoBehaviour
             Vector3 pos = transform.position;
             pos.y = 0;
 
+            if (Vector3.Distance(pos, targetPos) > range)
+            {
+                target = null;
+                return;
+            }
+
             rotationPivot.rotation = Quaternion.LookRotation(targetPos - pos, Vector3.up);
 
             float time = Time.time;
@@ -40,13 +50,10 @@ public class Turret : MonoBehaviour
                 //Debug.DrawLine(transform.position, target.position, Color.red, 0.2f);
                 timeOfLastFire = time;
 
-                StartCoroutine(FireCo());
-
-                var health = target.GetComponentInParent<Health>();
-
-                if (health)
-                    health.Damage(damage);
+                Shoot();
             }
+
+
         }
         else
         {
@@ -66,6 +73,22 @@ public class Turret : MonoBehaviour
 
             if (closestHealth)
                 target = closestHealth.transform;
+        }
+    }
+
+    void Shoot()
+    {
+        var health = target.GetComponentInParent<Health>();
+
+        if (health)
+            health.Damage(damage);
+
+        if (isLaser)
+            StartCoroutine(FireCo());
+        else
+        {
+            target.GetComponent<Health>();
+            BulletManager.Shoot(barrelPoint.position, target.position + health.GetTargetOffset());
         }
     }
 

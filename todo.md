@@ -38,13 +38,13 @@ Stream #4:
 - // Selecting buildings
 - // Fix bug: Cancel troops in queue when all buildings that can produce it are destroyed
 - // Cancel unit build on right click in UI
-- Better bullets graphics
-- Fix: Turrets should stop firing when out of range
+- // Better bullets graphics
+- // Fix: Turrets should stop firing when out of range
+
+Stream #5:
 - Factions - BIG REFACTOR
 - Per-faction closest finding
 - Increase radius of selection circle on tanks
-
-
 - Formation movement
 - Unit info UI
 - Health graphics

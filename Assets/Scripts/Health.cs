@@ -7,6 +7,7 @@ public class Health : MonoBehaviour
     public static List<Health> all;
 
     public float hp = 1;
+    public float targetOffset;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     static void Reload()
@@ -33,5 +34,15 @@ public class Health : MonoBehaviour
 
         if (hp < 0)
             Destroy(gameObject);
+    }
+
+    public Vector3 GetTargetOffset()
+    {
+        return new Vector3(0, targetOffset, 0);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawWireCube(transform.position + GetTargetOffset(), Vector3.one * 0.1f);
     }
 }

@@ -13,6 +13,9 @@ public class BuildingsGUI : WindowGUI
 
     protected override void Window()
     {
+        Event e = Event.current;
+        bool RMB = e.type == EventType.MouseUp && e.button == 1;
+
         //windowRect.height = 10;
 
         Label("Money: " + input.money);
@@ -29,12 +32,17 @@ public class BuildingsGUI : WindowGUI
 
         foreach (var building in input.unitsDatabase.buildings)
         {
+
+
             bool beingConstructed = building == input.buildingBeingConstructed;
             bool finished = building == input.buildingPrefabBeingPlaced;
 
             string buttonText = building.name;
             if (beingConstructed)
-                buttonText += ": " + input.buildingProgress.ToString("F2");
+            {
+                int percent = Mathf.FloorToInt(input.buildingProgress / building.constructable.timeToBuild * 100.0f);
+                buttonText += " " + percent + "%";
+            }
             else if (finished)
                 buttonText += ": DONE";
 
@@ -58,9 +66,6 @@ public class BuildingsGUI : WindowGUI
         {
             //if (unitsProduced)
             //    GUI.enabled = false;
-
-
-
 
 
             foreach (var unit in input.constructableUnits)
@@ -89,7 +94,12 @@ public class BuildingsGUI : WindowGUI
 
                 if (Button(unitStr))
                 {
-                    input.EnqueueUnit(unit);
+                    if (!RMB)
+                        input.EnqueueUnit(unit);
+                    else
+                    {
+                        input.DequeueUnit(unit);
+                    }
                 }
             }
 

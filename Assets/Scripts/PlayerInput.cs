@@ -5,15 +5,15 @@ using UnityEngine;
 using Nothke.Utils;
 using System;
 
+using NDraw;
+
 public class PlayerInput : MonoBehaviour
 {
     public static PlayerInput instance;
     void Awake() { instance = this; }
 
     new public Camera camera;
-
-    public Transform testT;
-
+    Vector2 camVelo;
 
     public Material previewGreenMat;
     public Material previewRedMat;
@@ -25,6 +25,7 @@ public class PlayerInput : MonoBehaviour
 
     public Unit unitBeingProduced;
     public float unitProgress;
+    public Queue<Unit> unitBuildQueue = new Queue<Unit>();
 
     public int money = 1000;
 
@@ -37,10 +38,14 @@ public class PlayerInput : MonoBehaviour
     public List<Unit> constructableUnits = new List<Unit>();
     public Dictionary<Unit, Building> unitProducedInBuildingMap = new Dictionary<Unit, Building>();
 
-    public Queue<Unit> unitBuildQueue = new Queue<Unit>();
+    Building selectedBuilding;
+
+    Queue<Unit> queueBuff = new Queue<Unit>();
 
     void Update()
     {
+        Vector3 up = Vector3.up;
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             selectedUnits.Clear();
@@ -49,8 +54,30 @@ public class PlayerInput : MonoBehaviour
 
         // Camera movement
 
-        float inputX = Input.GetAxis("Horizontal");
-        float inputY = Input.GetAxis("Vertical");
+        float inputX = Input.GetAxisRaw("Horizontal");
+        float inputY = Input.GetAxisRaw("Vertical");
+
+        float dt = Time.deltaTime;
+        const float maxCameraSpeed = 20.0f;
+
+        Vector2 mousePos = Input.mousePosition;
+
+        Vector2 camAccel = new Vector2(inputX, inputY);
+
+        const float MOUSE_MOVE_MARGIN = 5;
+        if (mousePos.x < MOUSE_MOVE_MARGIN)
+            camAccel.x = -1;
+        else if (mousePos.x > Screen.width - MOUSE_MOVE_MARGIN)
+            camAccel.x = 1;
+
+        if (mousePos.y < MOUSE_MOVE_MARGIN)
+            camAccel.y = -1;
+        else if (mousePos.y > Screen.height - MOUSE_MOVE_MARGIN)
+            camAccel.y = 1;
+
+        camVelo += camAccel * dt * 100.0f;
+        camVelo *= camAccel.sqrMagnitude == 0 ? 0.9f : 1.0f;
+        camVelo = Vector2.ClampMagnitude(camVelo, maxCameraSpeed);
 
         Transform camT = camera.transform;
 
@@ -60,12 +87,9 @@ public class PlayerInput : MonoBehaviour
 
         Vector3 right = camT.right;
 
-        float dt = Time.deltaTime;
-        const float cameraSpeed = 20.0f;
-
         camT.position +=
-            forward * inputY * dt * cameraSpeed +
-            right * inputX * dt * cameraSpeed;
+            right * camVelo.x * dt +
+            forward * camVelo.y * dt;
 
         // Grid picking
 
@@ -80,46 +104,69 @@ public class PlayerInput : MonoBehaviour
             Mathf.FloorToInt(raycastPoint.z)
             );
 
-        testT.position = new Vector3(coord.x + 0.5f, 0, coord.y + 0.5f);
+        var tile = World.instance.GetTile(coord.x, coord.y);
+
+        Vector3 tilePos = new Vector3(tile.coord.x + 0.5f, 0, tile.coord.y + 0.5f);
+        Draw.World.SetColor(tile.building ? Color.yellow : Color.white);
+        Draw.World.Cube(tilePos + Vector3.up * 0.01f, new Vector3(1, 0, 1), Vector3.forward, Vector3.up);
 
         bool mouseOverUI = Nothke.ProtoGUI.GameWindow.IsMouseOverUI();
         bool LMBDown = !mouseOverUI && Input.GetMouseButtonDown(0);
         bool RMBDown = !mouseOverUI && Input.GetMouseButtonDown(1);
 
-        if (buildingPrefabBeingPlaced && !mouseOverUI)
+        if (!mouseOverUI)
         {
-            var size = buildingPrefabBeingPlaced.size;
-
-            Vector3 extents = new Vector3(
-                size.x, 0,
-                size.y) * 0.5f;
-
-            Vector3 buildingCornerPoint = raycastPoint - extents;
-
-            Vector2Int cornerCoord = new Vector2Int(
-                Mathf.FloorToInt(buildingCornerPoint.x + 0.5f),
-                Mathf.FloorToInt(buildingCornerPoint.z + 0.5f)
-            );
-
-            //ref var tile = ref World.instance.GetTile(coord.x, coord.y);
-            //Debug.Log(tile.coord);
-
-            bool occupied = !World.instance.CanPlace(cornerCoord, size);
-
-            Vector3 buildingPosition =
-                new Vector3(cornerCoord.x, 0, cornerCoord.y) + extents;
-
-            Material previewMat = occupied ? previewRedMat : previewGreenMat;
-
-            ObjectPreviewer.Render(buildingPosition, Quaternion.identity, Vector3.one * 1.02f, previewMat);
-
-            if (LMBDown)
+            if (buildingPrefabBeingPlaced)
             {
-                if (!occupied)
+                var size = buildingPrefabBeingPlaced.size;
+
+                Vector3 extents = new Vector3(
+                    size.x, 0,
+                    size.y) * 0.5f;
+
+                Vector3 buildingCornerPoint = raycastPoint - extents;
+
+                Vector2Int cornerCoord = new Vector2Int(
+                    Mathf.FloorToInt(buildingCornerPoint.x + 0.5f),
+                    Mathf.FloorToInt(buildingCornerPoint.z + 0.5f)
+                );
+
+                //ref var tile = ref World.instance.GetTile(coord.x, coord.y);
+                //Debug.Log(tile.coord);
+
+                bool occupied = !World.instance.CanPlace(cornerCoord, size);
+
+                Vector3 buildingPosition =
+                    new Vector3(cornerCoord.x, 0, cornerCoord.y) + extents;
+
+                Material previewMat = occupied ? previewRedMat : previewGreenMat;
+
+                ObjectPreviewer.Render(buildingPosition, Quaternion.identity, Vector3.one * 1.02f, previewMat);
+
+                if (LMBDown)
                 {
-                    PlaceBuilding(buildingPrefabBeingPlaced, buildingPosition, cornerCoord);
+                    if (!occupied)
+                    {
+                        PlaceBuilding(buildingPrefabBeingPlaced, buildingPosition, cornerCoord);
+                    }
                 }
             }
+            else
+            {
+                if (LMBDown)
+                {
+                    selectedBuilding = tile.building;
+                }
+            }
+        }
+
+        if (selectedBuilding)
+        {
+            // Draw
+            float w = selectedBuilding.size.x;
+            float h = selectedBuilding.size.y;
+            float r = Mathf.Sqrt(w * w + h * h) * 0.5f + 0.2f;
+            Draw.World.Circle(selectedBuilding.transform.position + up * 0.01f, r, up, 64);
         }
 
         // Construction progress
@@ -168,7 +215,9 @@ public class PlayerInput : MonoBehaviour
                 if (RMBDown)
                     unit.agent.SetDestination(raycastPoint);
 
-                Debug.DrawRay(unit.transform.position + Vector3.up * 1.3f, Vector3.up * 0.4f, Color.cyan);
+                Draw.World.SetColor(Color.yellow);
+                Draw.World.Circle(unit.transform.position + Vector3.up * 0.1f, 0.5f, Vector3.up, 16);
+                //Debug.DrawRay(unit.transform.position + Vector3.up * 1.3f, Vector3.up * 0.4f, Color.cyan);
             }
         }
 
@@ -202,6 +251,22 @@ public class PlayerInput : MonoBehaviour
             }
         }
 
+
+        // Destroy on delete
+        if (Input.GetKeyDown(KeyCode.Delete))
+        {
+            for (int i = selectedUnits.Count - 1; i >= 0; i--)
+            {
+                Destroy(selectedUnits[i].gameObject);
+            }
+
+            selectedUnits.Clear();
+
+            if (selectedBuilding)
+                Destroy(selectedBuilding.gameObject);
+        }
+
+        //Draw.World.Cube(Vector3.zero, Vector3.one * 20, Vector3.forward, up);
     }
 
     void PlaceBuilding(Building prefab, Vector3 buildingPosition, Vector2Int coord)
@@ -312,11 +377,64 @@ public class PlayerInput : MonoBehaviour
             Debug.Log("Building destroyed, production cancelled");
             CancelConstructingUnit();
         }
+
+        Queue<Unit> tempQueue = new Queue<Unit>(unitBuildQueue.Count);
+
+        foreach (var unit in unitBuildQueue)
+        {
+            if (constructableUnits.Contains(unit))
+                tempQueue.Enqueue(unit);
+        }
+
+        unitBuildQueue = tempQueue;
+
     }
 
     void CancelConstructingUnit()
     {
         unitBeingProduced = null;
         unitProgress = 0;
+    }
+
+    public void DequeueUnit(Unit unit)
+    {
+        if (unitBuildQueue.Count == 0)
+        {
+            if (unitBeingProduced == unit)
+                CancelConstructingUnit();
+
+            return;
+        }
+
+        List<Unit> unitBuff = new List<Unit>(unitBuildQueue);
+
+        bool foundOne = false;
+
+        for (int i = 0; i < unitBuff.Count; i++)
+        //for (int i = unitBuff.Count - 1; i >= 0; i--)
+        {
+            if (unitBuff[i] == unit)
+            {
+                unitBuff.RemoveAt(i);
+                foundOne = true;
+                break;
+            }
+        }
+
+        if (!foundOne)
+        {
+            if (unitBeingProduced == unit)
+                CancelConstructingUnit();
+        }
+        else
+        {
+
+            unitBuildQueue.Clear();
+
+            foreach (var unitInList in unitBuff)
+            {
+                unitBuildQueue.Enqueue(unitInList);
+            }
+        }
     }
 }

@@ -91,6 +91,13 @@
         "com.unity.modules.imgui": "1.0.0"
       }
     },
+    "nothke.ndraw": {
+      "version": "https://github.com/nothke/NDraw.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "ec3e05ba94a158e4c44abe03865376b7532ca30a"
+    },
     "nothke.protogui": {
       "version": "https://github.com/nothke/ProtoGUI.git",
       "depth": 0,

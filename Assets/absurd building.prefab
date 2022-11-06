@@ -1207,8 +1207,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c81639149143614b86813ab476118ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToBuild: 1
-  cost: 100
+  timeToBuild: 10
+  cost: 1000
 --- !u!114 &7455753667100190236
 MonoBehaviour:
   m_ObjectHideFlags: 0

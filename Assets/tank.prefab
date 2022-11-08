@@ -661,6 +661,7 @@ MonoBehaviour:
   faction: {fileID: 0}
   hp: 1
   targetOffset: 0
+  addedSelectionRadius: 0.3
 --- !u!114 &6702962173477956016
 MonoBehaviour:
   m_ObjectHideFlags: 0

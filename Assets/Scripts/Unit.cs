@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using NDraw;
 
 public class Unit : MonoBehaviour
 {
@@ -34,7 +35,9 @@ public class Unit : MonoBehaviour
 
     private void Update()
     {
-        Debug.DrawRay(agent.destination, Vector3.up * 0.2f);
+        Vector3 off = Vector3.up * 0.2f;
+        //Debug.DrawRay(agent.destination, Vector3.up * 0.2f);
+        Draw.World.Line(transform.position + off, agent.destination + off);
     }
 
     private void OnDestroy()

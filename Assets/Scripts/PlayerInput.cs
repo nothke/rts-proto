@@ -162,7 +162,7 @@ public class PlayerInput : MonoBehaviour
         foreach (var unit in faction.selectedUnits)
         {
             Draw.World.SetColor(Color.yellow);
-            Draw.World.Circle(unit.transform.position + Vector3.up * 0.1f, 0.5f, Vector3.up, 16);
+            Draw.World.Circle(unit.transform.position + Vector3.up * 0.1f, 0.5f + unit.entity.addedSelectionRadius, Vector3.up, 16);
         }
 
         // Rect selection

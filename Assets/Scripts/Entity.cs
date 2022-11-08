@@ -9,6 +9,7 @@ public class Entity : MonoBehaviour
     public Faction faction;
     public float hp = 1;
     public float targetOffset;
+    public float addedSelectionRadius = 0;
 
     static List<Renderer> tintRenderers;
 

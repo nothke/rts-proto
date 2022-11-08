@@ -143,12 +143,6 @@ public class Faction : MonoBehaviour
         money -= unit.constructable.cost;
     }
 
-    public void SetFactionColor(Entity entity)
-    {
-        if (entity.factionColorRenderer)
-            entity.factionColorRenderer.material = factionMaterial;
-    }
-
     internal void EnqueueUnit(Unit unit)
     {
         unitBuildQueue.Enqueue(unit);

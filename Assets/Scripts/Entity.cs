@@ -7,14 +7,16 @@ public class Entity : MonoBehaviour
     public static List<Entity> all;
 
     public Faction faction;
-    public Renderer factionColorRenderer;
     public float hp = 1;
     public float targetOffset;
+
+    static List<Renderer> tintRenderers;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     static void Reload()
     {
         all = null;
+        tintRenderers = null;
     }
 
     private void Start()
@@ -24,8 +26,23 @@ public class Entity : MonoBehaviour
 
         all.Add(this);
 
-        if (faction)
-            faction.SetFactionColor(this);
+        if (tintRenderers == null)
+            tintRenderers = new List<Renderer>();
+
+        tintRenderers.Clear();
+        GetComponentsInChildren(tintRenderers);
+
+        foreach (var renderer in tintRenderers)
+        {
+            if (renderer.sharedMaterial == Globals.instance.tintMaterial)
+            {
+                Debug.Assert(renderer);
+                Debug.Assert(faction);
+                Debug.Assert(faction.factionMaterial);
+
+                renderer.material = faction.factionMaterial;
+            }
+        }
     }
 
     private void OnDestroy()

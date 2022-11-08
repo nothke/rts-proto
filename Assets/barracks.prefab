@@ -243,7 +243,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   faction: {fileID: 0}
-  factionColorRenderer: {fileID: 242318068049423469}
   hp: 1
   targetOffset: 0
 --- !u!114 &2174591859414856720
@@ -330,7 +329,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4880237298020060305}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.184, z: -0.152}
+  m_LocalPosition: {x: 0, y: 2.221, z: -0.152}
   m_LocalScale: {x: 0.13566299, y: 1.7563071, z: 0.123866946}
   m_Children: []
   m_Father: {fileID: 9128951164293715915}

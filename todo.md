@@ -50,7 +50,7 @@ Stream #5:
 	- // Per-faction closest finding (skipped this)
 	- // Make faction units fight each other
 	- // Make enemy units unselectable
-	- Faction graphics, red and blue
+	- // Faction graphics, red and blue
 - Increase radius of selection circle on tanks
 - Formation movement
 - Unit info UI

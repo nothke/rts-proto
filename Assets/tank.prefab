@@ -660,6 +660,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 1
+  targetOffset: 0
 --- !u!114 &6702962173477956016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -693,7 +694,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4770869131621677124}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c45898d0ea1223b40923bfd46273202d, type: 3}
   m_Name: 
@@ -704,6 +705,8 @@ MonoBehaviour:
   rotationPivot: {fileID: 4557021111287996867}
   rateOfFire: 1
   barrelPoint: {fileID: 8723425908377997009}
+  isLaser: 0
+  bulletPrefab: {fileID: 0}
 --- !u!120 &457576705042492529
 LineRenderer:
   m_ObjectHideFlags: 0

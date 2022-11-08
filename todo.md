@@ -42,8 +42,12 @@ Stream #4:
 - // Fix: Turrets should stop firing when out of range
 
 Stream #5:
+- // Disable edge scrolling in editor
 - Factions - BIG REFACTOR
+	- Split input from construction
+	- Units need to belong to Factions (add to Health script?)
 - Per-faction closest finding
+- Make faction units fight each other
 - Increase radius of selection circle on tanks
 - Formation movement
 - Unit info UI

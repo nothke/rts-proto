@@ -40,8 +40,6 @@ public class PlayerInput : MonoBehaviour
 
     Building selectedBuilding;
 
-    Queue<Unit> queueBuff = new Queue<Unit>();
-
     void Update()
     {
         Vector3 up = Vector3.up;
@@ -64,6 +62,7 @@ public class PlayerInput : MonoBehaviour
 
         Vector2 camAccel = new Vector2(inputX, inputY);
 
+#if !UNITY_EDITOR
         const float MOUSE_MOVE_MARGIN = 5;
         if (mousePos.x < MOUSE_MOVE_MARGIN)
             camAccel.x = -1;
@@ -74,6 +73,7 @@ public class PlayerInput : MonoBehaviour
             camAccel.y = -1;
         else if (mousePos.y > Screen.height - MOUSE_MOVE_MARGIN)
             camAccel.y = 1;
+#endif
 
         camVelo += camAccel * dt * 100.0f;
         camVelo *= camAccel.sqrMagnitude == 0 ? 0.9f : 1.0f;

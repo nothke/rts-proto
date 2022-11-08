@@ -311,6 +311,63 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1001 &879203900
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3564579425325583358, guid: a50046c6cd83e464cad625a8888cd806, type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3564579425325583358, guid: a50046c6cd83e464cad625a8888cd806, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.479
+      objectReference: {fileID: 0}
+    - target: {fileID: 3564579425325583358, guid: a50046c6cd83e464cad625a8888cd806, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3564579425325583358, guid: a50046c6cd83e464cad625a8888cd806, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3.501
+      objectReference: {fileID: 0}
+    - target: {fileID: 3564579425325583358, guid: a50046c6cd83e464cad625a8888cd806, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3564579425325583358, guid: a50046c6cd83e464cad625a8888cd806, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3564579425325583358, guid: a50046c6cd83e464cad625a8888cd806, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3564579425325583358, guid: a50046c6cd83e464cad625a8888cd806, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3564579425325583358, guid: a50046c6cd83e464cad625a8888cd806, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3564579425325583358, guid: a50046c6cd83e464cad625a8888cd806, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3564579425325583358, guid: a50046c6cd83e464cad625a8888cd806, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4770869131621677124, guid: a50046c6cd83e464cad625a8888cd806, type: 3}
+      propertyPath: m_Name
+      value: tank
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a50046c6cd83e464cad625a8888cd806, type: 3}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -408,6 +465,62 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   material: {fileID: 2100000, guid: 91f500f2103ac2843846cfe8aba014a8, type: 2}
+--- !u!1 &1022449970
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1022449971}
+  - component: {fileID: 1022449972}
+  m_Layer: 0
+  m_Name: Player
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1022449971
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1022449970}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1928893957}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1022449972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1022449970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ab10296a964ec7488fe138c0b3fd8a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitsDatabase: {fileID: 11400000, guid: 5fa5ef127732b3d4d847be4a86ad1cc6, type: 2}
+  money: 1000
+  color: {r: 1, g: 0, b: 0, a: 1}
+  factionMaterial: {fileID: 2100000, guid: be8aa775ab92e5543a9ffa3d2a6c1ba7, type: 2}
+  buildingPrefabBeingPlaced: {fileID: 0}
+  buildingBeingConstructed: {fileID: 0}
+  buildingProgress: 0
+  unitBeingProduced: {fileID: 0}
+  unitProgress: 0
+  selectedUnits: []
+  constructedBuildings: []
+  constructableUnits: []
+  selectedBuilding: {fileID: 0}
 --- !u!1 &1290745061
 GameObject:
   m_ObjectHideFlags: 0
@@ -598,6 +711,62 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1693933668
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1693933670}
+  - component: {fileID: 1693933669}
+  m_Layer: 0
+  m_Name: Enemy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1693933669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1693933668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ab10296a964ec7488fe138c0b3fd8a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitsDatabase: {fileID: 11400000, guid: 5fa5ef127732b3d4d847be4a86ad1cc6, type: 2}
+  money: 1000
+  color: {r: 0, g: 0.62563324, b: 1, a: 1}
+  factionMaterial: {fileID: 2100000, guid: be8aa775ab92e5543a9ffa3d2a6c1ba7, type: 2}
+  buildingPrefabBeingPlaced: {fileID: 0}
+  buildingBeingConstructed: {fileID: 0}
+  buildingProgress: 0
+  unitBeingProduced: {fileID: 0}
+  unitProgress: 0
+  selectedUnits: []
+  constructedBuildings: []
+  constructableUnits: []
+  selectedBuilding: {fileID: 0}
+--- !u!4 &1693933670
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1693933668}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1928893957}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1928893954
 GameObject:
   m_ObjectHideFlags: 0
@@ -609,7 +778,6 @@ GameObject:
   - component: {fileID: 1928893957}
   - component: {fileID: 1928893956}
   - component: {fileID: 1928893955}
-  - component: {fileID: 1928893960}
   - component: {fileID: 1928893958}
   - component: {fileID: 1928893959}
   m_Layer: 0
@@ -634,7 +802,8 @@ MonoBehaviour:
   camera: {fileID: 963194227}
   previewGreenMat: {fileID: 2100000, guid: b5f2c8fba2f0a87439ca3a1aeb0dc3bf, type: 2}
   previewRedMat: {fileID: 2100000, guid: 42f64ccf7951e3341bd0e74a4eef4a6c, type: 2}
-  faction: {fileID: 1928893960}
+  faction: {fileID: 1022449972}
+  canSelectEnemyUnits: 1
 --- !u!114 &1928893956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -657,7 +826,9 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1022449971}
+  - {fileID: 1693933670}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -692,26 +863,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 2281800446029652386, guid: e60832ae4771b7044abfa19a4613193b, type: 3}
---- !u!114 &1928893960
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1928893954}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ab10296a964ec7488fe138c0b3fd8a7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  unitsDatabase: {fileID: 11400000, guid: 5fa5ef127732b3d4d847be4a86ad1cc6, type: 2}
-  money: 1000
-  buildingPrefabBeingPlaced: {fileID: 0}
-  buildingBeingConstructed: {fileID: 0}
-  buildingProgress: 0
-  unitBeingProduced: {fileID: 0}
-  unitProgress: 0
-  selectedUnits: []
-  constructedBuildings: []
-  constructableUnits: []
-  selectedBuilding: {fileID: 0}

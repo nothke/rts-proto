@@ -47,8 +47,10 @@ Stream #5:
 	- // Split input from construction
 	- // Units need to belong to Factions (add to Health script? (renamed to Entity!))
 	- // Building call Destroy on the faction
-- Per-faction closest finding
-- Make faction units fight each other
+	- // Per-faction closest finding (skipped this)
+	- // Make faction units fight each other
+	- // Make enemy units unselectable
+	- Faction graphics, red and blue
 - Increase radius of selection circle on tanks
 - Formation movement
 - Unit info UI

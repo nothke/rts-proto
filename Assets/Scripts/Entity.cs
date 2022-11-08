@@ -7,6 +7,7 @@ public class Entity : MonoBehaviour
     public static List<Entity> all;
 
     public Faction faction;
+    public Renderer factionColorRenderer;
     public float hp = 1;
     public float targetOffset;
 
@@ -22,6 +23,9 @@ public class Entity : MonoBehaviour
             all = new List<Entity>();
 
         all.Add(this);
+
+        if (faction)
+            faction.SetFactionColor(this);
     }
 
     private void OnDestroy()

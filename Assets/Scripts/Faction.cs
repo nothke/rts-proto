@@ -7,6 +7,8 @@ public class Faction : MonoBehaviour
     public UnitsDatabase unitsDatabase;
 
     public int money = 1000;
+    public Color color = Color.red;
+    public Material factionMaterial;
 
     public Building buildingPrefabBeingPlaced;
     public Building buildingBeingConstructed;
@@ -33,6 +35,12 @@ public class Faction : MonoBehaviour
             selectedUnits.Clear();
             //selectedUnits.AddRange(FindObjectsOfType<Unit>());
         }
+    }
+
+    private void Awake()
+    {
+        factionMaterial = Instantiate(factionMaterial);
+        factionMaterial.color = color;
     }
 
     private void Update()
@@ -133,6 +141,12 @@ public class Faction : MonoBehaviour
         unit.entity.faction = this;
 
         money -= unit.constructable.cost;
+    }
+
+    public void SetFactionColor(Entity entity)
+    {
+        if (entity.factionColorRenderer)
+            entity.factionColorRenderer.material = factionMaterial;
     }
 
     internal void EnqueueUnit(Unit unit)

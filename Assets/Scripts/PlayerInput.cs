@@ -26,6 +26,8 @@ public class PlayerInput : MonoBehaviour
 
     GameObject lastObjectInPreview;
 
+    public bool canSelectEnemyUnits;
+
     void Update()
     {
         Vector3 up = Vector3.up;
@@ -181,6 +183,9 @@ public class PlayerInput : MonoBehaviour
             {
                 foreach (var unit in Unit.all)
                 {
+                    if (!canSelectEnemyUnits && unit.entity.faction != faction)
+                        continue;
+
                     Vector3 ssPos = camera.WorldToScreenPoint(unit.transform.position);
 
                     Rect rect = new Rect(rectSelectStart, (Vector2)Input.mousePosition - rectSelectStart);

@@ -609,6 +609,7 @@ GameObject:
   - component: {fileID: 1928893957}
   - component: {fileID: 1928893956}
   - component: {fileID: 1928893955}
+  - component: {fileID: 1928893960}
   - component: {fileID: 1928893958}
   - component: {fileID: 1928893959}
   m_Layer: 0
@@ -633,16 +634,7 @@ MonoBehaviour:
   camera: {fileID: 963194227}
   previewGreenMat: {fileID: 2100000, guid: b5f2c8fba2f0a87439ca3a1aeb0dc3bf, type: 2}
   previewRedMat: {fileID: 2100000, guid: 42f64ccf7951e3341bd0e74a4eef4a6c, type: 2}
-  unitsDatabase: {fileID: 11400000, guid: 5fa5ef127732b3d4d847be4a86ad1cc6, type: 2}
-  buildingPrefabBeingPlaced: {fileID: 0}
-  buildingBeingConstructed: {fileID: 0}
-  buildingProgress: 0
-  unitBeingProduced: {fileID: 0}
-  unitProgress: 0
-  money: 1000
-  selectedUnits: []
-  constructedBuildings: []
-  constructableUnits: []
+  faction: {fileID: 1928893960}
 --- !u!114 &1928893956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -700,3 +692,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 2281800446029652386, guid: e60832ae4771b7044abfa19a4613193b, type: 3}
+--- !u!114 &1928893960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1928893954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ab10296a964ec7488fe138c0b3fd8a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitsDatabase: {fileID: 11400000, guid: 5fa5ef127732b3d4d847be4a86ad1cc6, type: 2}
+  money: 1000
+  buildingPrefabBeingPlaced: {fileID: 0}
+  buildingBeingConstructed: {fileID: 0}
+  buildingProgress: 0
+  unitBeingProduced: {fileID: 0}
+  unitProgress: 0
+  selectedUnits: []
+  constructedBuildings: []
+  constructableUnits: []
+  selectedBuilding: {fileID: 0}

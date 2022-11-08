@@ -11,7 +11,7 @@ public class Building : MonoBehaviour
 
     private void OnDestroy()
     {
-        PlayerInput.instance.BuildingGotDestroyed(this);
+        PlayerInput.instance.faction.BuildingGotDestroyed(this);
     }
 
     private void OnDrawGizmos()

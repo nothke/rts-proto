@@ -13,34 +13,36 @@ public class BuildingsGUI : WindowGUI
 
     protected override void Window()
     {
+        Faction faction = input.faction;
+
         Event e = Event.current;
         bool RMB = e.type == EventType.MouseUp && e.button == 1;
 
         //windowRect.height = 10;
 
-        Label("Money: " + input.money);
+        Label("Money: " + faction.money);
 
         if (Button("MOAR MONEY!"))
-            input.money += 12;
+            faction.money += 12;
 
         Label("Buildings:");
 
-        bool guiDisabled = input.buildingBeingConstructed || input.buildingPrefabBeingPlaced;
+        bool guiDisabled = faction.buildingBeingConstructed || faction.buildingPrefabBeingPlaced;
 
         if (guiDisabled)
             GUI.enabled = false;
 
-        foreach (var building in input.unitsDatabase.buildings)
+        foreach (var building in faction.unitsDatabase.buildings)
         {
 
 
-            bool beingConstructed = building == input.buildingBeingConstructed;
-            bool finished = building == input.buildingPrefabBeingPlaced;
+            bool beingConstructed = building == faction.buildingBeingConstructed;
+            bool finished = building == faction.buildingPrefabBeingPlaced;
 
             string buttonText = building.name;
             if (beingConstructed)
             {
-                int percent = Mathf.FloorToInt(input.buildingProgress / building.constructable.timeToBuild * 100.0f);
+                int percent = Mathf.FloorToInt(faction.buildingProgress / building.constructable.timeToBuild * 100.0f);
                 buttonText += " " + percent + "%";
             }
             else if (finished)
@@ -48,7 +50,7 @@ public class BuildingsGUI : WindowGUI
 
             if (Button(buttonText))
             {
-                input.StartConstructingBuilding(building);
+                faction.StartConstructingBuilding(building);
             }
         }
 
@@ -58,32 +60,32 @@ public class BuildingsGUI : WindowGUI
 
         // Units
 
-        bool unitsProduced = input.unitBeingProduced;
+        bool unitsProduced = faction.unitBeingProduced;
 
         Label("Units:");
 
-        if (input.constructableUnits.Count > 0)
+        if (faction.constructableUnits.Count > 0)
         {
             //if (unitsProduced)
             //    GUI.enabled = false;
 
 
-            foreach (var unit in input.constructableUnits)
+            foreach (var unit in faction.constructableUnits)
             {
                 string unitStr = unit.name;
 
                 int counter = 0;
-                foreach (var unitInQueue in input.unitBuildQueue)
+                foreach (var unitInQueue in faction.unitBuildQueue)
                 {
                     if (unitInQueue == unit)
                         counter++;
                 }
 
                 string percentStr = "";
-                if (input.unitBeingProduced == unit)
+                if (faction.unitBeingProduced == unit)
                 {
                     counter++;
-                    int percent = Mathf.FloorToInt(input.unitProgress / unit.constructable.timeToBuild * 100.0f);
+                    int percent = Mathf.FloorToInt(faction.unitProgress / unit.constructable.timeToBuild * 100.0f);
                     percentStr = " " + percent + "%";
                 }
 
@@ -95,10 +97,10 @@ public class BuildingsGUI : WindowGUI
                 if (Button(unitStr))
                 {
                     if (!RMB)
-                        input.EnqueueUnit(unit);
+                        faction.EnqueueUnit(unit);
                     else
                     {
-                        input.DequeueUnit(unit);
+                        faction.DequeueUnit(unit);
                     }
                 }
             }
@@ -109,7 +111,7 @@ public class BuildingsGUI : WindowGUI
 
         Label("Unit Queue:");
 
-        foreach (var unit in input.unitBuildQueue)
+        foreach (var unit in faction.unitBuildQueue)
         {
             Label(unit.name);
         }

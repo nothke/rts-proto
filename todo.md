@@ -46,6 +46,7 @@ Stream #5:
 - Factions - BIG REFACTOR
 	- Split input from construction
 	- Units need to belong to Factions (add to Health script?)
+	- Building call Destroy on the faction
 - Per-faction closest finding
 - Make faction units fight each other
 - Increase radius of selection circle on tanks
@@ -53,3 +54,6 @@ Stream #5:
 - Unit info UI
 - Health graphics
 - Building rally points
+
+- SelectAllUnits
+- Select all units on screen by type on double click

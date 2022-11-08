@@ -18,37 +18,17 @@ public class PlayerInput : MonoBehaviour
     public Material previewGreenMat;
     public Material previewRedMat;
 
-    public UnitsDatabase unitsDatabase;
-    public Building buildingPrefabBeingPlaced;
-    public Building buildingBeingConstructed;
-    public float buildingProgress;
 
-    public Unit unitBeingProduced;
-    public float unitProgress;
-    public Queue<Unit> unitBuildQueue = new Queue<Unit>();
-
-    public int money = 1000;
-
-    public List<Unit> selectedUnits = new List<Unit>();
+    public Faction faction;
 
     bool rectSelecting;
     Vector2 rectSelectStart;
 
-    public List<Building> constructedBuildings = new List<Building>();
-    public List<Unit> constructableUnits = new List<Unit>();
-    public Dictionary<Unit, Building> unitProducedInBuildingMap = new Dictionary<Unit, Building>();
-
-    Building selectedBuilding;
+    GameObject lastObjectInPreview;
 
     void Update()
     {
         Vector3 up = Vector3.up;
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            selectedUnits.Clear();
-            selectedUnits.AddRange(FindObjectsOfType<Unit>());
-        }
 
         // Camera movement
 
@@ -116,9 +96,9 @@ public class PlayerInput : MonoBehaviour
 
         if (!mouseOverUI)
         {
-            if (buildingPrefabBeingPlaced)
+            if (faction.buildingPrefabBeingPlaced)
             {
-                var size = buildingPrefabBeingPlaced.size;
+                var size = faction.buildingPrefabBeingPlaced.size;
 
                 Vector3 extents = new Vector3(
                     size.x, 0,
@@ -147,7 +127,7 @@ public class PlayerInput : MonoBehaviour
                 {
                     if (!occupied)
                     {
-                        PlaceBuilding(buildingPrefabBeingPlaced, buildingPosition, cornerCoord);
+                        faction.PlaceBuilding(faction.buildingPrefabBeingPlaced, buildingPosition, cornerCoord);
                     }
                 }
             }
@@ -155,70 +135,32 @@ public class PlayerInput : MonoBehaviour
             {
                 if (LMBDown)
                 {
-                    selectedBuilding = tile.building;
+                    faction.selectedBuilding = tile.building;
                 }
             }
         }
 
-        if (selectedBuilding)
+        if (faction.buildingPrefabBeingPlaced && lastObjectInPreview != faction.buildingPrefabBeingPlaced)
+            ObjectPreviewer.SetObject(faction.buildingPrefabBeingPlaced.gameObject);
+
+        lastObjectInPreview = faction.buildingPrefabBeingPlaced ? faction.buildingPrefabBeingPlaced.gameObject : null;
+
+        if (faction.selectedBuilding)
         {
             // Draw
-            float w = selectedBuilding.size.x;
-            float h = selectedBuilding.size.y;
+            float w = faction.selectedBuilding.size.x;
+            float h = faction.selectedBuilding.size.y;
             float r = Mathf.Sqrt(w * w + h * h) * 0.5f + 0.2f;
-            Draw.World.Circle(selectedBuilding.transform.position + up * 0.01f, r, up, 64);
+            Draw.World.Circle(faction.selectedBuilding.transform.position + up * 0.01f, r, up, 64);
         }
 
-        // Construction progress
-        if (buildingBeingConstructed)
+        if (RMBDown)
+            faction.GiveMoveOrderToSelectedUnits(raycastPoint);
+
+        foreach (var unit in faction.selectedUnits)
         {
-            buildingProgress += dt;
-
-            if (buildingProgress > buildingBeingConstructed.constructable.timeToBuild)
-            {
-                buildingPrefabBeingPlaced = buildingBeingConstructed;
-                buildingBeingConstructed = null;
-                buildingProgress = 0;
-
-                ObjectPreviewer.SetObject(buildingPrefabBeingPlaced.gameObject);
-            }
-        }
-
-        if (unitBuildQueue.Count > 0 && !unitBeingProduced &&
-            money >= unitBuildQueue.Peek().constructable.cost)
-        {
-            unitBeingProduced = unitBuildQueue.Dequeue();
-        }
-
-        if (unitBeingProduced)
-        {
-            unitProgress += dt;
-
-            if (unitProgress > unitBeingProduced.constructable.timeToBuild)
-            {
-                SpawnUnit(unitBeingProduced);
-            }
-        }
-
-        // Cleanup dead units
-        for (int i = selectedUnits.Count - 1; i >= 0; i--)
-        {
-            if (selectedUnits[i] == null)
-                selectedUnits.RemoveAt(i);
-        }
-
-        // give orders to units
-        if (selectedUnits.Count > 0)
-        {
-            foreach (var unit in selectedUnits)
-            {
-                if (RMBDown)
-                    unit.agent.SetDestination(raycastPoint);
-
-                Draw.World.SetColor(Color.yellow);
-                Draw.World.Circle(unit.transform.position + Vector3.up * 0.1f, 0.5f, Vector3.up, 16);
-                //Debug.DrawRay(unit.transform.position + Vector3.up * 1.3f, Vector3.up * 0.4f, Color.cyan);
-            }
+            Draw.World.SetColor(Color.yellow);
+            Draw.World.Circle(unit.transform.position + Vector3.up * 0.1f, 0.5f, Vector3.up, 16);
         }
 
         // Rect selection
@@ -233,7 +175,7 @@ public class PlayerInput : MonoBehaviour
             if (Input.GetMouseButtonUp(0))
                 rectSelecting = false;
 
-            selectedUnits.Clear();
+            faction.selectedUnits.Clear();
 
             if (Unit.all != null)
             {
@@ -245,74 +187,17 @@ public class PlayerInput : MonoBehaviour
 
                     if (rect.Contains(ssPos, true))
                     {
-                        selectedUnits.Add(unit);
+                        faction.selectedUnits.Add(unit);
                     }
                 }
             }
         }
 
-
         // Destroy on delete
         if (Input.GetKeyDown(KeyCode.Delete))
-        {
-            for (int i = selectedUnits.Count - 1; i >= 0; i--)
-            {
-                Destroy(selectedUnits[i].gameObject);
-            }
-
-            selectedUnits.Clear();
-
-            if (selectedBuilding)
-                Destroy(selectedBuilding.gameObject);
-        }
+            faction.DestroySelectedUnits();
 
         //Draw.World.Cube(Vector3.zero, Vector3.one * 20, Vector3.forward, up);
-    }
-
-    void PlaceBuilding(Building prefab, Vector3 buildingPosition, Vector2Int coord)
-    {
-        var building = Instantiate(prefab);
-        building.transform.position = buildingPosition;
-
-        //tile.building = building;
-        World.instance.PlaceBuilding(building, coord);
-
-        buildingPrefabBeingPlaced = null;
-
-        constructedBuildings.Add(building);
-
-        // Update producers:
-
-        var producer = building.GetComponent<UnitProducer>();
-
-        if (producer)
-        {
-            foreach (var unit in producer.canProduce)
-            {
-                if (!constructableUnits.Contains(unit))
-                {
-                    constructableUnits.Add(unit);
-                    unitProducedInBuildingMap.Add(unit, building);
-                }
-            }
-        }
-    }
-
-    void SpawnUnit(Unit unit)
-    {
-        var building = unitProducedInBuildingMap[unit];
-
-        Instantiate(unitBeingProduced, building.transform.position + Vector3.forward, Quaternion.identity);
-
-        unitBeingProduced = null;
-        unitProgress = 0;
-
-        money -= unit.constructable.cost;
-    }
-
-    internal void EnqueueUnit(Unit unit)
-    {
-        unitBuildQueue.Enqueue(unit);
     }
 
     private void OnGUI()
@@ -328,113 +213,7 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
-    public void StartConstructingBuilding(Building building)
-    {
-        if (money >= building.constructable.cost)
-        {
-            money -= building.constructable.cost;
-            buildingBeingConstructed = building;
-        }
-    }
 
-    public void BuildingGotDestroyed(Building building)
-    {
-        constructedBuildings.Remove(building);
 
-        if (building.GetComponent<UnitProducer>())
-            UpdateProducers();
-    }
 
-    void UpdateProducers()
-    {
-        constructableUnits.Clear();
-        unitProducedInBuildingMap.Clear();
-
-        foreach (var building in constructedBuildings)
-        {
-            if (building.TryGetComponent<UnitProducer>(out var producer))
-            {
-                foreach (var unit in producer.canProduce)
-                {
-                    if (!constructableUnits.Contains(unit))
-                    {
-                        constructableUnits.Add(unit);
-                        unitProducedInBuildingMap.Add(unit, building);
-                    }
-                }
-            }
-        }
-
-        // Cancel production if building that produces the unit no longer exists
-        if (unitBeingProduced)
-        {
-            foreach (var unit in constructableUnits)
-            {
-                if (unit == unitBeingProduced)
-                    return;
-            }
-
-            Debug.Log("Building destroyed, production cancelled");
-            CancelConstructingUnit();
-        }
-
-        Queue<Unit> tempQueue = new Queue<Unit>(unitBuildQueue.Count);
-
-        foreach (var unit in unitBuildQueue)
-        {
-            if (constructableUnits.Contains(unit))
-                tempQueue.Enqueue(unit);
-        }
-
-        unitBuildQueue = tempQueue;
-
-    }
-
-    void CancelConstructingUnit()
-    {
-        unitBeingProduced = null;
-        unitProgress = 0;
-    }
-
-    public void DequeueUnit(Unit unit)
-    {
-        if (unitBuildQueue.Count == 0)
-        {
-            if (unitBeingProduced == unit)
-                CancelConstructingUnit();
-
-            return;
-        }
-
-        List<Unit> unitBuff = new List<Unit>(unitBuildQueue);
-
-        bool foundOne = false;
-
-        for (int i = 0; i < unitBuff.Count; i++)
-        //for (int i = unitBuff.Count - 1; i >= 0; i--)
-        {
-            if (unitBuff[i] == unit)
-            {
-                unitBuff.RemoveAt(i);
-                foundOne = true;
-                break;
-            }
-        }
-
-        if (!foundOne)
-        {
-            if (unitBeingProduced == unit)
-                CancelConstructingUnit();
-        }
-        else
-        {
-
-            unitBuildQueue.Clear();
-
-            foreach (var unitInList in unitBuff)
-            {
-                unitBuildQueue.Enqueue(unitInList);
-            }
-        }
-    }
 }

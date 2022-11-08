@@ -44,9 +44,9 @@ Stream #4:
 Stream #5:
 - // Disable edge scrolling in editor
 - Factions - BIG REFACTOR
-	- Split input from construction
-	- Units need to belong to Factions (add to Health script?)
-	- Building call Destroy on the faction
+	- // Split input from construction
+	- // Units need to belong to Factions (add to Health script? (renamed to Entity!))
+	- // Building call Destroy on the faction
 - Per-faction closest finding
 - Make faction units fight each other
 - Increase radius of selection circle on tanks

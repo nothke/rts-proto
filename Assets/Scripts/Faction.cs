@@ -92,6 +92,9 @@ public class Faction : MonoBehaviour
     public void PlaceBuilding(Building prefab, Vector3 buildingPosition, Vector2Int coord)
     {
         var building = Instantiate(prefab);
+
+        building.entity.faction = this;
+
         building.transform.position = buildingPosition;
 
         //tile.building = building;
@@ -126,6 +129,8 @@ public class Faction : MonoBehaviour
 
         unitBeingProduced = null;
         unitProgress = 0;
+
+        unit.entity.faction = this;
 
         money -= unit.constructable.cost;
     }

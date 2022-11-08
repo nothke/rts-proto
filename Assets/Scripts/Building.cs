@@ -9,9 +9,12 @@ public class Building : MonoBehaviour
     Constructable _constructable;
     public Constructable constructable { get { if (!_constructable) _constructable = GetComponent<Constructable>(); return _constructable; } }
 
+    Entity _entity;
+    public Entity entity { get { if (!_entity) _entity = GetComponent<Entity>(); return _entity; } }
+
     private void OnDestroy()
     {
-        PlayerInput.instance.faction.BuildingGotDestroyed(this);
+        entity.faction.BuildingGotDestroyed(this);
     }
 
     private void OnDrawGizmos()

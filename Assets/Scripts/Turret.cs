@@ -16,8 +16,8 @@ public class Turret : MonoBehaviour
     LineRenderer _line;
     LineRenderer line { get { if (!_line) _line = GetComponent<LineRenderer>(); return _line; } }
 
-    Health _ownHealth;
-    Health ownHealth { get { if (!_ownHealth) _ownHealth = GetComponent<Health>(); return _ownHealth; } }
+    Entity _ownHealth;
+    Entity ownHealth { get { if (!_ownHealth) _ownHealth = GetComponent<Entity>(); return _ownHealth; } }
 
     public Transform barrelPoint;
 
@@ -58,10 +58,10 @@ public class Turret : MonoBehaviour
         else
         {
             float closest = Mathf.Infinity;
-            Health closestHealth = null;
+            Entity closestHealth = null;
 
             // Seek target
-            foreach (var health in Health.all)
+            foreach (var health in Entity.all)
             {
                 float d = Vector3.Distance(health.transform.position, transform.position);
                 if (d < closest && health != ownHealth && d < range)
@@ -78,7 +78,7 @@ public class Turret : MonoBehaviour
 
     void Shoot()
     {
-        var health = target.GetComponentInParent<Health>();
+        var health = target.GetComponentInParent<Entity>();
 
         if (health)
             health.Damage(damage);
@@ -87,7 +87,7 @@ public class Turret : MonoBehaviour
             StartCoroutine(FireCo());
         else
         {
-            target.GetComponent<Health>();
+            target.GetComponent<Entity>();
             BulletManager.Shoot(barrelPoint.position, target.position + health.GetTargetOffset());
         }
     }

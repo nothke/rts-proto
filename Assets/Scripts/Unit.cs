@@ -13,6 +13,9 @@ public class Unit : MonoBehaviour
     Constructable _constructable;
     public Constructable constructable { get { if (!_constructable) _constructable = GetComponent<Constructable>(); return _constructable; } }
 
+    Entity _entity;
+    public Entity entity { get { if (!_entity) _entity = GetComponent<Entity>(); return _entity; } }
+
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     static void Reload()
     {

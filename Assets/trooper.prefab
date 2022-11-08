@@ -104,10 +104,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6581377580603008139}
+  - component: {fileID: 3066985008975451726}
   - component: {fileID: 6581377580603008140}
   - component: {fileID: -3199367114119634892}
   - component: {fileID: 851496389}
-  - component: {fileID: 3066985008975451726}
   - component: {fileID: -468562349002895674}
   - component: {fileID: -6255239882816267862}
   m_Layer: 0
@@ -133,6 +133,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3066985008975451726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6581377580603008141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06b807c9b1871d340a125f99faa8bc3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  faction: {fileID: 0}
+  hp: 1
+  targetOffset: 0.57
 --- !u!195 &6581377580603008140
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -181,20 +196,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45004b2193b8659449d5dba50db3f3b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3066985008975451726
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6581377580603008141}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06b807c9b1871d340a125f99faa8bc3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hp: 1
-  targetOffset: 0.57
 --- !u!114 &-468562349002895674
 MonoBehaviour:
   m_ObjectHideFlags: 0

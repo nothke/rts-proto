@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Health : MonoBehaviour
+public class Entity : MonoBehaviour
 {
-    public static List<Health> all;
+    public static List<Entity> all;
 
+    public Faction faction;
     public float hp = 1;
     public float targetOffset;
 
@@ -18,7 +19,7 @@ public class Health : MonoBehaviour
     private void Start()
     {
         if (all == null)
-            all = new List<Health>();
+            all = new List<Entity>();
 
         all.Add(this);
     }

@@ -550,9 +550,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3840697452150824961}
+  - component: {fileID: 8459867856026648643}
   - component: {fileID: 7277583788309568275}
   - component: {fileID: 3840697452150824966}
-  - component: {fileID: 8459867856026648643}
   - component: {fileID: 3840697452150824967}
   - component: {fileID: 3840697452150824960}
   - component: {fileID: -5842508937155254084}
@@ -579,6 +579,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8459867856026648643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3840697452150824964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06b807c9b1871d340a125f99faa8bc3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  faction: {fileID: 0}
+  hp: 1
+  targetOffset: 0
 --- !u!114 &7277583788309568275
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -606,19 +621,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: {x: 1, y: 1}
---- !u!114 &8459867856026648643
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3840697452150824964}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06b807c9b1871d340a125f99faa8bc3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hp: 1
 --- !u!114 &3840697452150824967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -637,6 +639,8 @@ MonoBehaviour:
   rotationPivot: {fileID: 3840697451089028229}
   rateOfFire: 1
   barrelPoint: {fileID: 3840697451728763239}
+  isLaser: 0
+  bulletPrefab: {fileID: 0}
 --- !u!120 &3840697452150824960
 LineRenderer:
   m_ObjectHideFlags: 0

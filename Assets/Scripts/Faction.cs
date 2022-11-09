@@ -129,18 +129,24 @@ public class Faction : MonoBehaviour
         }
     }
 
-    public void SpawnUnit(Unit unit)
+    public void SpawnUnit(Unit unitPrefab)
     {
-        var building = unitProducedInBuildingMap[unit];
+        var building = unitProducedInBuildingMap[unitPrefab];
 
-        Instantiate(unitBeingProduced, building.transform.position + Vector3.forward, Quaternion.identity);
+        var unit = Instantiate(unitBeingProduced, building.transform.position + Vector3.forward, Quaternion.identity);
+        unit.entity.faction = this;
+
+        if (building.TryGetComponent<UnitProducer>(out var producer))
+        {
+            var rallypoint = producer.GetRallyPoint();
+            unit.agent.SetDestination(rallypoint);
+        }
 
         unitBeingProduced = null;
         unitProgress = 0;
 
-        unit.entity.faction = this;
+        money -= unitPrefab.constructable.cost;
 
-        money -= unit.constructable.cost;
     }
 
     internal void EnqueueUnit(Unit unit)
@@ -258,11 +264,27 @@ public class Faction : MonoBehaviour
         }
     }
 
+    public Vector3 CenterOfSelectedUnits()
+    {
+        Vector3 centerOfSelectedUnits = Vector3.zero;
+
+        foreach (var unit in selectedUnits)
+            centerOfSelectedUnits += unit.transform.position;
+
+        if (selectedUnits.Count > 0)
+            centerOfSelectedUnits /= selectedUnits.Count;
+
+        return centerOfSelectedUnits;
+    }
+
     public void GiveMoveOrderToSelectedUnits(Vector3 to)
     {
+        Vector3 center = CenterOfSelectedUnits();
+
         foreach (var unit in selectedUnits)
         {
-            unit.agent.SetDestination(to);
+            Vector3 offsetFromCenter = unit.transform.position - center;
+            unit.agent.SetDestination(to + offsetFromCenter);
         }
     }
 }

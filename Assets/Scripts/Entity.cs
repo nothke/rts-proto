@@ -38,7 +38,7 @@ public class Entity : MonoBehaviour
             if (renderer.sharedMaterial == Globals.instance.tintMaterial)
             {
                 Debug.Assert(renderer);
-                Debug.Assert(faction);
+                Debug.Assert(faction, "Faction is null");
                 Debug.Assert(faction.factionMaterial);
 
                 renderer.material = faction.factionMaterial;

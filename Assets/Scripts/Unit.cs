@@ -25,7 +25,7 @@ public class Unit : MonoBehaviour
 
     private void Start()
     {
-        agent.SetDestination(transform.position + Vector3.forward);
+        //agent.SetDestination(transform.position + Vector3.forward);
 
         if (all == null)
             all = new List<Unit>();
@@ -37,6 +37,7 @@ public class Unit : MonoBehaviour
     {
         Vector3 off = Vector3.up * 0.2f;
         //Debug.DrawRay(agent.destination, Vector3.up * 0.2f);
+        Draw.World.SetColor(new Color(1, 1, 1, 0.4f));
         Draw.World.Line(transform.position + off, agent.destination + off);
     }
 

@@ -52,10 +52,12 @@ Stream #5:
 	- // Make enemy units unselectable
 	- // Faction graphics, red and blue
 - // Increase radius of selection circle on tanks
-- Formation movement
-- Unit info UI
-- Health graphics
+- // Formation movement
+- // Unit info UI
+- // Health graphics
 - Building rally points
 
 - SelectAllUnits
 - Select all units on screen by type on double click
+- Scatter
+- Attack orders

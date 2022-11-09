@@ -907,6 +907,7 @@ GameObject:
   - component: {fileID: 1928893955}
   - component: {fileID: 1928893958}
   - component: {fileID: 1928893959}
+  - component: {fileID: 1928893961}
   m_Layer: 0
   m_Name: GAME
   m_TagString: Untagged
@@ -1003,6 +1004,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tintMaterial: {fileID: 2100000, guid: be8aa775ab92e5543a9ffa3d2a6c1ba7, type: 2}
+--- !u!114 &1928893961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1928893954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc648d5950b9ab046a442b1da437492f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  windowRect:
+    serializedVersion: 2
+    x: 360
+    y: 20
+    width: 250
+    height: 0
 --- !u!1001 &2025643944
 PrefabInstance:
   m_ObjectHideFlags: 0

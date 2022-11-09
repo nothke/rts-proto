@@ -154,16 +154,47 @@ public class PlayerInput : MonoBehaviour
             float h = faction.selectedBuilding.size.y;
             float r = Mathf.Sqrt(w * w + h * h) * 0.5f + 0.2f;
             Draw.World.Circle(faction.selectedBuilding.transform.position + up * 0.01f, r, up, 64);
+
+            if (RMBDown)
+            {
+                if (faction.selectedUnits.Count == 0)
+                {
+                    // Set rally point
+                    if (faction.selectedBuilding.TryGetComponent<UnitProducer>(out var producer))
+                        producer.rallyPoint = raycastPoint;
+                }
+            }
         }
 
         if (RMBDown)
             faction.GiveMoveOrderToSelectedUnits(raycastPoint);
 
+        // Draw selected units
         foreach (var unit in faction.selectedUnits)
         {
+            Vector3 unitPos = unit.transform.position;
+
             Draw.World.SetColor(Color.yellow);
-            Draw.World.Circle(unit.transform.position + Vector3.up * 0.1f, 0.5f + unit.entity.addedSelectionRadius, Vector3.up, 16);
+            Draw.World.Circle(unitPos + Vector3.up * 0.1f, 0.5f + unit.entity.addedSelectionRadius, Vector3.up, 16);
+
+            // Health bar
+            const float h = 2.0f;
+            float barLength = 1.0f;
+            //Vector3 healthBarRight = Vector3.right;
+            Vector3 start = unitPos + up * h - right * 0.5f * barLength;
+            Draw.World.SetColor(Color.black);
+            Draw.World.Ray(start, right * barLength);
+            Draw.World.SetColor(Color.green);
+            Draw.World.Ray(start, right * barLength * unit.entity.hp);
         }
+
+        //if (faction.selectedUnits.Count > 0)
+        //{
+        //    Vector3 centerOfSelectedUnits = faction.CenterOfSelectedUnits();
+
+        //    Draw.World.SetColor(Color.cyan);
+        //    Draw.World.Ray(centerOfSelectedUnits, Vector3.up * 2);
+        //}
 
         // Rect selection
         if (LMBDown)
